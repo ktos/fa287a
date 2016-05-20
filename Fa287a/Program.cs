@@ -34,6 +34,9 @@ using System.Windows.Forms;
 
 namespace Ktos.Fa287a
 {
+    /// <summary>
+    /// The main class for running the application
+    /// </summary>
     internal class Program
     {
         [STAThread]

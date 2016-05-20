@@ -40,7 +40,7 @@ namespace Ktos.Fa287a
     {
         private Fa287aDriver sp;
         private WindowsInput.IKeyboardSimulator ks;
-        private bool Fn;
+        private bool keyFnActive;
 
         /// <summary>
         /// Initializes a new instance of KeyboardSimulator and starts
@@ -81,7 +81,7 @@ namespace Ktos.Fa287a
         /// <returns>Windows API compatible Virtual Key Code</returns>
         private WindowsInput.Native.VirtualKeyCode ConvertKey(Key k)
         {
-            if (Fn)
+            if (keyFnActive)
             {
                 switch (k)
                 {
@@ -166,7 +166,7 @@ namespace Ktos.Fa287a
         private void Sp_KeyUp(object sender, KeyHandlerEventArgs e)
         {
             if (e.Key == Key.Fn)
-                Fn = false;
+                keyFnActive = false;
 
             ks.KeyUp(ConvertKey(e.Key));
         }
@@ -174,7 +174,7 @@ namespace Ktos.Fa287a
         private void Sp_KeyDown(object sender, KeyHandlerEventArgs e)
         {
             if (e.Key == Key.Fn)
-                Fn = true;
+                keyFnActive = true;
 
             ks.KeyDown(ConvertKey(e.Key));
         }

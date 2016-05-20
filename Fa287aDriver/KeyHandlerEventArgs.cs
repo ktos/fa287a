@@ -48,7 +48,7 @@ namespace Ktos.Fa287a
         /// Initializes a new instance and creates a readonly
         /// field for key pressed.
         /// </summary>
-        /// <param name="key"></param>
+        /// <param name="key">The key which was pressed</param>
         public KeyHandlerEventArgs(Key key)
         {
             Key = key;

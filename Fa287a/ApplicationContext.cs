@@ -36,12 +36,18 @@ using System.Windows.Forms;
 
 namespace Ktos.Fa287a
 {
+    /// <summary>
+    /// Application Context - main class for handling user interface
+    /// </summary>
     internal class ApplicationContext : System.Windows.Forms.ApplicationContext
     {
         private KeyboardSimulator ks;
         private NotifyIcon trayIcon;
-        private bool IsConnected;
+        private bool connected;
 
+        /// <summary>
+        /// Creates a new tray icon and menu for user interaction
+        /// </summary>
         public ApplicationContext()
         {
             trayIcon = new NotifyIcon();
@@ -69,10 +75,10 @@ namespace Ktos.Fa287a
 
         private void updateTitle()
         {
-            trayIcon.Text = IsConnected ?
-                string.Format("{0} - {1} ({2})", Resources.AppResources.AppName, Resources.AppResources.Connected,
-                ConfigurationManager.AppSettings["portName"]) : string.Format("{0} ({1})", Resources.AppResources.AppName,
-                ConfigurationManager.AppSettings["portName"]);
+            trayIcon.Text = connected ?
+                    string.Format("{0} - {1} ({2})", Resources.AppResources.AppName, Resources.AppResources.Connected, ConfigurationManager.AppSettings["portName"])
+                : 
+                    string.Format("{0} ({1})", Resources.AppResources.AppName, ConfigurationManager.AppSettings["portName"]);
         }
 
         private void exit(object sender, EventArgs e)
@@ -84,7 +90,7 @@ namespace Ktos.Fa287a
         private void disconnect(object sender, EventArgs e)
         {
             ks.Close();
-            IsConnected = false;
+            connected = false;
             updateTitle();
         }
 
@@ -93,7 +99,7 @@ namespace Ktos.Fa287a
             try
             {
                 ks.Open();
-                IsConnected = true;
+                connected = true;
                 updateTitle();
             }
             catch (IOException)
