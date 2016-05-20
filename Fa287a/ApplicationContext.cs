@@ -9,6 +9,7 @@ namespace Ktos.Fa287a
     {
         private KeyboardSimulator ks;
         private NotifyIcon trayIcon;
+        private bool IsConnected;
 
         public ApplicationContext()
         {
@@ -18,14 +19,22 @@ namespace Ktos.Fa287a
             trayIcon.DoubleClick += connect;
 
             trayIcon.ContextMenu = new ContextMenu();
-            trayIcon.ContextMenu.MenuItems.Add(new MenuItem("&Connect", connect));
-            trayIcon.ContextMenu.MenuItems.Add(new MenuItem("&Disconnect", disconnect));
+            trayIcon.ContextMenu.MenuItems.Add(new MenuItem(string.Format("&{0}", Resources.AppResources.Connect), connect));
+            trayIcon.ContextMenu.MenuItems.Add(new MenuItem(string.Format("&{0}", Resources.AppResources.Disconnect), disconnect));
             trayIcon.ContextMenu.MenuItems.Add(new MenuItem("-"));
-            trayIcon.ContextMenu.MenuItems.Add(new MenuItem("&Exit", exit));
-            trayIcon.Text = "Fa287a " + ConfigurationManager.AppSettings["portName"];
+            trayIcon.ContextMenu.MenuItems.Add(new MenuItem(string.Format("&{0}", Resources.AppResources.Exit), exit));
+            updateTitle();
             trayIcon.Visible = true;
 
             ks = new KeyboardSimulator(ConfigurationManager.AppSettings["portName"]);
+        }
+
+        private void updateTitle()
+        {
+            trayIcon.Text = IsConnected ? 
+                string.Format("{0} - {1} ({2})", Resources.AppResources.AppName, Resources.AppResources.Connected,
+                ConfigurationManager.AppSettings["portName"]) : string.Format("{0} ({1})", Resources.AppResources.AppName, 
+                ConfigurationManager.AppSettings["portName"]);
         }
 
         private void exit(object sender, EventArgs e)
@@ -40,6 +49,8 @@ namespace Ktos.Fa287a
         private void disconnect(object sender, EventArgs e)
         {
             ks.Close();
+            IsConnected = false;
+            updateTitle();
         }
 
         private void connect(object sender, EventArgs e)
@@ -47,10 +58,12 @@ namespace Ktos.Fa287a
             try
             {
                 ks.Open();
+                IsConnected = true;
+                updateTitle();
             }
             catch (IOException)
             {
-                trayIcon.ShowBalloonTip(1000, "Fa287a", "Cannot connect to keyboard. Check if the port is correct and if keyboard is active.", ToolTipIcon.Error);
+                trayIcon.ShowBalloonTip(1000, Resources.AppResources.AppName, Resources.AppResources.CannotConnect, ToolTipIcon.Error);
             }
         }
     }
