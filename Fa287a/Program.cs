@@ -39,7 +39,7 @@ namespace Ktos.Fa287a
         [STAThread]
         private static void Main(string[] args)
         {
-            Application.Run(new Ktos.Fa287a.ApplicationContext());
+            Application.Run(new ApplicationContext());
         }
     }
 }
