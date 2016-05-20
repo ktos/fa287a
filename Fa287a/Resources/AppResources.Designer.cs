@@ -61,6 +61,24 @@ namespace Ktos.Fa287a.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to About.
+        /// </summary>
+        internal static string About {
+            get {
+                return ResourceManager.GetString("About", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to FA287A for Windows\n\nA very simple application staying in your tray for connecting over the Bluetooth Serial Port to HP FA287A keyboard. It handles all keypresses from that keyboard and simulates real keyboard on the device, as FA287A is working over SPP, not as regular HID device.\n\nCopyright (C) Marcin &quot;Ktos&quot; Badurowicz 2016. Licensed under MIT license..
+        /// </summary>
+        internal static string AboutBox {
+            get {
+                return ResourceManager.GetString("AboutBox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to FA287A for Windows.
         /// </summary>
         internal static string AppName {

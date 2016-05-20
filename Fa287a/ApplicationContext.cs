@@ -53,11 +53,18 @@ namespace Ktos.Fa287a
             trayIcon.ContextMenu.MenuItems.Add(new MenuItem(string.Format("&{0}", Resources.AppResources.Connect), connect));
             trayIcon.ContextMenu.MenuItems.Add(new MenuItem(string.Format("&{0}", Resources.AppResources.Disconnect), disconnect));
             trayIcon.ContextMenu.MenuItems.Add(new MenuItem("-"));
+            trayIcon.ContextMenu.MenuItems.Add(new MenuItem(string.Format("&{0}", Resources.AppResources.About), about));
+            trayIcon.ContextMenu.MenuItems.Add(new MenuItem("-"));
             trayIcon.ContextMenu.MenuItems.Add(new MenuItem(string.Format("&{0}", Resources.AppResources.Exit), exit));
             updateTitle();
             trayIcon.Visible = true;
 
             ks = new KeyboardSimulator(ConfigurationManager.AppSettings["portName"]);
+        }
+
+        private void about(object sender, EventArgs e)
+        {
+            MessageBox.Show(Resources.AppResources.AboutBox.Replace("\\n", "\n"), Resources.AppResources.AppName, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void updateTitle()
