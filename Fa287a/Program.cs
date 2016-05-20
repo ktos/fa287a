@@ -34,6 +34,18 @@ namespace ConsoleApplication1
 
         private static WindowsInput.Native.VirtualKeyCode ConvertKey(Key k)
         {
+            if (Fn)
+            {
+                switch (k)
+                {
+                    case Key.Semicolon: return WindowsInput.Native.VirtualKeyCode.PRIOR;
+                    case Key.Apostrophe: return WindowsInput.Native.VirtualKeyCode.NEXT;
+                    case Key.ArrowLeft: return WindowsInput.Native.VirtualKeyCode.HOME;
+                    case Key.ArrowRight: return WindowsInput.Native.VirtualKeyCode.END;
+                    default: return ConvertKey(k);
+                }
+            }
+
             switch (k)
             {
                 case Key.Accent: return WindowsInput.Native.VirtualKeyCode.OEM_3;
@@ -105,41 +117,12 @@ namespace ConsoleApplication1
             }
         }
 
-        private static WindowsInput.Native.VirtualKeyCode ConvertKeyFn(Key k)
-        {
-            switch (k)
-            {
-                case Key.Semicolon: return WindowsInput.Native.VirtualKeyCode.PRIOR;
-                case Key.Apostrophe: return WindowsInput.Native.VirtualKeyCode.NEXT;
-                case Key.ArrowLeft: return WindowsInput.Native.VirtualKeyCode.HOME;
-                case Key.ArrowRight: return WindowsInput.Native.VirtualKeyCode.END;
-                default: return ConvertKey(k);
-            }
-
-        }
-
         private static void Sp_KeyUp(object sender, KeyHandlerEventArgs e)
         {
             if (e.Key == Key.Fn)
                 Fn = false;
-
-            if (Fn)
-                ks.KeyUp(ConvertKeyFn(e.Key));
-            else
-                ks.KeyUp(ConvertKey(e.Key));
-
-            //if (LShift || RShift)
-            //    ks.ModifiedKeyStroke(WindowsInput.Native.VirtualKeyCode.SHIFT, ConvertKey(e.Key));
-            //else if (LCtrl)
-            //    ks.ModifiedKeyStroke(WindowsInput.Native.VirtualKeyCode.CONTROL, ConvertKey(e.Key));
-            //else if (Alt)
-            //    ks.ModifiedKeyStroke(WindowsInput.Native.VirtualKeyCode.MENU, ConvertKey(e.Key));
-            //else if (AltGr)
-            //    ks.ModifiedKeyStroke(WindowsInput.Native.VirtualKeyCode.RMENU, ConvertKey(e.Key));
-            //else if (Win)
-            //    ks.ModifiedKeyStroke(WindowsInput.Native.VirtualKeyCode.LWIN, ConvertKey(e.Key));
-            //else
-            //    ks.KeyDown(ConvertKey(e.Key));                        
+            
+            ks.KeyUp(ConvertKey(e.Key));                       
         }
 
         private static void Sp_KeyDown(object sender, KeyHandlerEventArgs e)
@@ -147,10 +130,7 @@ namespace ConsoleApplication1
             if (e.Key == Key.Fn)
                 Fn = true;
 
-            if (Fn)
-                ks.KeyDown(ConvertKeyFn(e.Key));
-            else
-                ks.KeyDown(ConvertKey(e.Key));
+            ks.KeyDown(ConvertKey(e.Key));
         }
 
         
