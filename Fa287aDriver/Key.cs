@@ -31,6 +31,10 @@
 
 namespace Ktos.Fa287a
 {
+    /// <summary>
+    /// Defines all possible keys and their codes sent over BT connection
+    /// from the keyboard
+    /// </summary>
     public enum Key
     {
         Escape = 8,

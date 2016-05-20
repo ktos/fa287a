@@ -33,12 +33,20 @@ using System;
 
 namespace Ktos.Fa287a
 {
-    internal class KeyboardSimulator
+    /// <summary>
+    /// Handles simulating real keyboard by signals from the FA287A device
+    /// </summary>
+    public class KeyboardSimulator
     {
         private Fa287aDriver sp;
         private WindowsInput.IKeyboardSimulator ks;
         private bool Fn;
 
+        /// <summary>
+        /// Initializes a new instance of KeyboardSimulator and starts
+        /// the connection (but not opens it) over the desired COM port.
+        /// </summary>
+        /// <param name="portName">Bluetooth device COM port</param>
         public KeyboardSimulator(string portName)
         {
             sp = new Fa287aDriver(portName);
@@ -48,16 +56,29 @@ namespace Ktos.Fa287a
             sp.KeyUp += Sp_KeyUp;
         }
 
+        /// <summary>
+        /// Starts the connection, starts listening for keypresses
+        /// and simulating them respectively
+        /// </summary>
         public void Open()
         {
             sp.Open();
         }
 
+        /// <summary>
+        /// Stops the connection and simulation
+        /// </summary>
         public void Close()
         {
             sp.Close();
         }
 
+        /// <summary>
+        /// Converts between Virtual Key Codes for Windows and codes
+        /// from the FA287A device
+        /// </summary>
+        /// <param name="k">A key code from the device</param>
+        /// <returns>Windows API compatible Virtual Key Code</returns>
         private WindowsInput.Native.VirtualKeyCode ConvertKey(Key k)
         {
             if (Fn)
@@ -138,7 +159,7 @@ namespace Ktos.Fa287a
                 case Key.ArrowRight: return WindowsInput.Native.VirtualKeyCode.RIGHT;
                 case Key.Del: return WindowsInput.Native.VirtualKeyCode.DELETE;
                 case Key.Escape: return WindowsInput.Native.VirtualKeyCode.ESCAPE;
-                default: Console.WriteLine((byte)k); return WindowsInput.Native.VirtualKeyCode.NONAME;
+                default: return WindowsInput.Native.VirtualKeyCode.NONAME;
             }
         }
 

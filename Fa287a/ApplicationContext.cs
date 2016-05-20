@@ -76,10 +76,7 @@ namespace Ktos.Fa287a
         }
 
         private void exit(object sender, EventArgs e)
-        {
-            // We must manually tidy up and remove the icon before we
-            // exit. Otherwise it will be left behind until the user
-            // mouses over.
+        {            
             trayIcon.Visible = false;
             Application.Exit();
         }

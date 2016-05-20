@@ -33,10 +33,18 @@ using System.IO.Ports;
 
 namespace Ktos.Fa287a
 {
+    /// <summary>
+    /// A very basic class for receiving data from the FA287A Bluetooth
+    /// keyboard over the Bluetooth Serial Port Profile.
+    /// </summary>
     public class Fa287aDriver
     {
         private SerialPort sp;
 
+        /// <summary>
+        /// Initializes a new instance and creates a COM port connection
+        /// </summary>
+        /// <param name="portName">Desired COM port to be used for connection</param>
         public Fa287aDriver(string portName)
         {
             sp = new SerialPort(portName, 9600, Parity.None, 8, StopBits.One);
@@ -44,25 +52,39 @@ namespace Ktos.Fa287a
             sp.ReceivedBytesThreshold = 1;
         }
 
+        /// <summary>
+        /// Opens the communication, clears the buffer
+        /// </summary>
         public void Open()
         {
             sp.Open();
             sp.ReadExisting();
         }
 
+        /// <summary>
+        /// Stops the communication and closes the port
+        /// </summary>
         public void Close()
         {
             sp.Close();
         }
 
+        /// <summary>
+        /// The event raised when key was released on the keyboard
+        /// </summary>
         public event KeyHandler KeyUp;
 
+        /// <summary>
+        /// The event raised when key was pressed on the keyboard
+        /// </summary>
         public event KeyHandler KeyDown;
 
         private void Sp_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             var b = (sender as SerialPort).ReadByte();
 
+            // keyboard is sending key code when key is going down
+            // and key code + 128 when is going up
             if (b <= 128)
             {
                 KeyDown?.Invoke(this, new KeyHandlerEventArgs((Key)b));
