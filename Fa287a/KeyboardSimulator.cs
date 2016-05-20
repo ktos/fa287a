@@ -37,8 +37,7 @@ namespace Ktos.Fa287a
                     case Key.Semicolon: return WindowsInput.Native.VirtualKeyCode.PRIOR;
                     case Key.Apostrophe: return WindowsInput.Native.VirtualKeyCode.NEXT;
                     case Key.ArrowLeft: return WindowsInput.Native.VirtualKeyCode.HOME;
-                    case Key.ArrowRight: return WindowsInput.Native.VirtualKeyCode.END;
-                    default: return ConvertKey(k);
+                    case Key.ArrowRight: return WindowsInput.Native.VirtualKeyCode.END;                    
                 }
             }
 
