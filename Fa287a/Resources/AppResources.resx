@@ -123,6 +123,9 @@
   <data name="AboutBox" xml:space="preserve">
     <value>FA287A for Windows\n\nA very simple application staying in your tray for connecting over the Bluetooth Serial Port to HP FA287A keyboard. It handles all keypresses from that keyboard and simulates real keyboard on the device, as FA287A is working over SPP, not as regular HID device.\n\nCopyright (C) Marcin "Ktos" Badurowicz 2016. Licensed under MIT license.</value>
   </data>
+  <data name="AnotherInstanceRunning" xml:space="preserve">
+    <value>Another copy of FA287A for Windows is already running, exiting.</value>
+  </data>
   <data name="AppName" xml:space="preserve">
     <value>FA287A for Windows</value>
   </data>

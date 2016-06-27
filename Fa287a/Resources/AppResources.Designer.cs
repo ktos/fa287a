@@ -79,6 +79,15 @@ namespace Ktos.Fa287a.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Another copy of FA287A for Windows is already running, exiting..
+        /// </summary>
+        internal static string AnotherInstanceRunning {
+            get {
+                return ResourceManager.GetString("AnotherInstanceRunning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to FA287A for Windows.
         /// </summary>
         internal static string AppName {

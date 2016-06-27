@@ -41,8 +41,21 @@ namespace Ktos.Fa287a
     {
         [STAThread]
         private static void Main(string[] args)
-        {                            
+        {
+            Application.EnableVisualStyles();
+
+            bool result;
+            var mutex = new System.Threading.Mutex(true, "FA287A", out result);
+
+            if (!result)
+            {
+                MessageBox.Show(Resources.AppResources.AnotherInstanceRunning, Resources.AppResources.AppName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             Application.Run(new ApplicationContext(args));
+
+            GC.KeepAlive(mutex);            
         }
     }
 }
