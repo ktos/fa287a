@@ -81,17 +81,20 @@ namespace Ktos.Fa287a
 
         private void Sp_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            var b = (sender as SerialPort).ReadByte();
+            while ((sender as SerialPort).BytesToRead > 0)
+            {
+                var b = (sender as SerialPort).ReadByte();
 
-            // keyboard is sending key code when key is going down
-            // and key code + 128 when is going up
-            if (b <= 128)
-            {
-                KeyDown?.Invoke(this, new KeyHandlerEventArgs((Key)b));
-            }
-            else
-            {
-                KeyUp?.Invoke(this, new KeyHandlerEventArgs((Key)(b - 128)));
+                // keyboard is sending key code when key is going down
+                // and key code + 128 when is going up
+                if (b <= 128)
+                {
+                    KeyDown?.Invoke(this, new KeyHandlerEventArgs((Key)b));
+                }
+                else
+                {
+                    KeyUp?.Invoke(this, new KeyHandlerEventArgs((Key)(b - 128)));
+                }
             }
         }
     }

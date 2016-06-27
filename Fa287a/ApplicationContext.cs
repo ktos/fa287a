@@ -77,12 +77,12 @@ namespace Ktos.Fa287a
         {
             trayIcon.Text = connected ?
                     string.Format("{0} - {1} ({2})", Resources.AppResources.AppName, Resources.AppResources.Connected, ConfigurationManager.AppSettings["portName"])
-                : 
+                :
                     string.Format("{0} ({1})", Resources.AppResources.AppName, ConfigurationManager.AppSettings["portName"]);
         }
 
         private void exit(object sender, EventArgs e)
-        {            
+        {
             trayIcon.Visible = false;
             Application.Exit();
         }
