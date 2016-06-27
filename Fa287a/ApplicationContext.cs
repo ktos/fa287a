@@ -92,6 +92,9 @@ namespace Ktos.Fa287a
 
         private void exit(object sender, EventArgs e)
         {
+            if (ks.IsOpen)
+                ks.Close();
+
             trayIcon.Visible = false;            
             Application.Exit();
         }
