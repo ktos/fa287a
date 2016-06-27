@@ -29,6 +29,7 @@
 
 #endregion License
 
+using Microsoft.Win32;
 using System;
 using System.Configuration;
 using System.IO;
@@ -67,6 +68,11 @@ namespace Ktos.Fa287a
 
             ks = new KeyboardSimulator(ConfigurationManager.AppSettings["portName"]);
 
+            // listing to power state changes and removing the temporary file if exists
+            SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
+            if (File.Exists(Path.Combine(Path.GetTempPath(), "Fa287active.tmp")))
+                File.Delete(Path.Combine(Path.GetTempPath(), "Fa287active.tmp"));
+
             if (args.Length > 0)
                 if (args[0] == "connect") connect(this, null);
         }
@@ -86,7 +92,7 @@ namespace Ktos.Fa287a
 
         private void exit(object sender, EventArgs e)
         {
-            trayIcon.Visible = false;
+            trayIcon.Visible = false;            
             Application.Exit();
         }
 
@@ -108,6 +114,35 @@ namespace Ktos.Fa287a
             catch (IOException)
             {
                 trayIcon.ShowBalloonTip(1000, Resources.AppResources.AppName, Resources.AppResources.CannotConnect, ToolTipIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Responds to system power mode changes: going to sleep and resuming. If system is going to sleep, disconnects the keyboard,
+        /// but saves information there was a connection active, connection is being resumed after power resume
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SystemEvents_PowerModeChanged(object sender, PowerModeChangedEventArgs e)
+        {
+            if (e.Mode == PowerModes.Suspend)
+            {
+                if (ks.IsOpen)
+                {
+                    File.Create(Path.Combine(Path.GetTempPath(), "Fa287active.tmp"));
+                    ks.Close();
+                }
+            }
+
+            if (e.Mode == PowerModes.Resume)
+            {
+                if (File.Exists(Path.Combine(Path.GetTempPath(), "Fa287active.tmp")))
+                {
+                    if (Convert.ToBoolean(ConfigurationManager.AppSettings["autoResume"]))
+                        ks.Open();
+
+                    File.Delete(Path.Combine(Path.GetTempPath(), "Fa287active.tmp"));
+                }
             }
         }
     }

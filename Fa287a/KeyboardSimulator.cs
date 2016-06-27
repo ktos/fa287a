@@ -43,6 +43,11 @@ namespace Ktos.Fa287a
         private bool keyFnActive;
 
         /// <summary>
+        /// Gets if keyboard simulator is in active state
+        /// </summary>
+        public bool IsOpen { get; private set; }
+
+        /// <summary>
         /// Initializes a new instance of KeyboardSimulator and starts
         /// the connection (but not opens it) over the desired COM port.
         /// </summary>
@@ -63,6 +68,7 @@ namespace Ktos.Fa287a
         public void Open()
         {
             sp.Open();
+            IsOpen = true;
         }
 
         /// <summary>
@@ -71,6 +77,7 @@ namespace Ktos.Fa287a
         public void Close()
         {
             sp.Close();
+            IsOpen = false;
 
             // turning off any special keys which may be active
             ks.KeyUp(WindowsInput.Native.VirtualKeyCode.CAPITAL);
