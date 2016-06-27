@@ -51,6 +51,9 @@ namespace Ktos.Fa287a
         /// </summary>
         public ApplicationContext(string[] args)
         {
+            var ipc = new Ipc(Program.APPNAME);
+            ipc.DataReceived += Ipc_DataReceived;
+
             trayIcon = new NotifyIcon();
             trayIcon.Icon = Resources.AppResources.icon;
 
@@ -68,13 +71,23 @@ namespace Ktos.Fa287a
 
             ks = new KeyboardSimulator(ConfigurationManager.AppSettings["portName"]);
 
-            // listing to power state changes and removing the temporary file if exists
+            // listing to power state changes and removing the
+            // temporary file if exists
             SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
             if (File.Exists(Path.Combine(Path.GetTempPath(), "Fa287active.tmp")))
                 File.Delete(Path.Combine(Path.GetTempPath(), "Fa287active.tmp"));
 
             if (args.Length > 0)
                 if (args[0] == "connect") connect(this, null);
+        }
+
+        private void Ipc_DataReceived(int obj)
+        {
+            if (obj == (byte)IpcMessages.CONNECT && !ks.IsOpen)
+                connect(this, null);
+
+            if (obj == (byte)IpcMessages.DISCONNECT && ks.IsOpen)
+                disconnect(this, null);
         }
 
         private void about(object sender, EventArgs e)
@@ -95,7 +108,7 @@ namespace Ktos.Fa287a
             if (ks.IsOpen)
                 ks.Close();
 
-            trayIcon.Visible = false;            
+            trayIcon.Visible = false;
             Application.Exit();
         }
 
@@ -121,8 +134,10 @@ namespace Ktos.Fa287a
         }
 
         /// <summary>
-        /// Responds to system power mode changes: going to sleep and resuming. If system is going to sleep, disconnects the keyboard,
-        /// but saves information there was a connection active, connection is being resumed after power resume
+        /// Responds to system power mode changes: going to sleep and
+        /// resuming. If system is going to sleep, disconnects the
+        /// keyboard, but saves information there was a connection
+        /// active, connection is being resumed after power resume
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

@@ -39,23 +39,35 @@ namespace Ktos.Fa287a
     /// </summary>
     internal class Program
     {
+        public const string APPNAME = "FA287A";
+
         [STAThread]
         private static void Main(string[] args)
         {
             Application.EnableVisualStyles();
 
             bool result;
-            var mutex = new System.Threading.Mutex(true, "FA287A", out result);
+            var mutex = new System.Threading.Mutex(true, APPNAME, out result);
 
             if (!result)
             {
-                MessageBox.Show(Resources.AppResources.AnotherInstanceRunning, Resources.AppResources.AppName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                if (args.Length > 0)
+                {
+                    if (args[0] == "connect")
+                        Ipc.WriteServer(".", APPNAME, (byte)IpcMessages.CONNECT);
+                    else if (args[0] == "disconnect")
+                        Ipc.WriteServer(".", APPNAME, (byte)IpcMessages.DISCONNECT);
+                }
+                else
+                {
+                    MessageBox.Show(Resources.AppResources.AnotherInstanceRunning, Resources.AppResources.AppName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
                 return;
             }
 
             Application.Run(new ApplicationContext(args));
 
-            GC.KeepAlive(mutex);            
+            GC.KeepAlive(mutex);
         }
     }
 }
