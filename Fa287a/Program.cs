@@ -46,11 +46,15 @@ namespace Ktos.Fa287a
         {
             Application.EnableVisualStyles();
 
+            // try to get the mutex
             bool result;
             var mutex = new System.Threading.Mutex(true, APPNAME, out result);
 
+            // if not, another instance is running
             if (!result)
             {
+                // if the start was with parameters, send those
+                // parameters to the running instance via IPC
                 if (args.Length > 0)
                 {
                     if (args[0] == "connect")
@@ -60,6 +64,8 @@ namespace Ktos.Fa287a
                 }
                 else
                 {
+                    // if the start was without parameters, show user a
+                    // warning message
                     MessageBox.Show(Resources.AppResources.AnotherInstanceRunning, Resources.AppResources.AppName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 return;
@@ -67,6 +73,7 @@ namespace Ktos.Fa287a
 
             Application.Run(new ApplicationContext(args));
 
+            // mutex must be kept alive
             GC.KeepAlive(mutex);
         }
     }

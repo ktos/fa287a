@@ -51,6 +51,7 @@ namespace Ktos.Fa287a
         /// </summary>
         public ApplicationContext(string[] args)
         {
+            // sets up IPC communication and waits for messages
             var ipc = new Ipc(Program.APPNAME);
             ipc.DataReceived += Ipc_DataReceived;
 
@@ -81,6 +82,10 @@ namespace Ktos.Fa287a
                 if (args[0] == "connect") connect(this, null);
         }
 
+        /// <summary>
+        /// Executes when IPC message arrives
+        /// </summary>
+        /// <param name="obj"></param>
         private void Ipc_DataReceived(int obj)
         {
             if (obj == (byte)IpcMessages.CONNECT && !ks.IsOpen)
