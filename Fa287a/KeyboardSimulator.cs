@@ -71,6 +71,14 @@ namespace Ktos.Fa287a
         public void Close()
         {
             sp.Close();
+
+            // turning off any special keys which may be active
+            ks.KeyUp(WindowsInput.Native.VirtualKeyCode.CAPITAL);
+            ks.KeyUp(WindowsInput.Native.VirtualKeyCode.SHIFT);
+            ks.KeyUp(WindowsInput.Native.VirtualKeyCode.CONTROL);
+            ks.KeyUp(WindowsInput.Native.VirtualKeyCode.LWIN);
+            ks.KeyUp(WindowsInput.Native.VirtualKeyCode.LMENU);
+            ks.KeyUp(WindowsInput.Native.VirtualKeyCode.MENU);
         }
 
         /// <summary>
