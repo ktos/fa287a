@@ -48,7 +48,7 @@ namespace Ktos.Fa287a
         /// <summary>
         /// Creates a new tray icon and menu for user interaction
         /// </summary>
-        public ApplicationContext()
+        public ApplicationContext(string[] args)
         {
             trayIcon = new NotifyIcon();
             trayIcon.Icon = Resources.AppResources.icon;
@@ -66,6 +66,9 @@ namespace Ktos.Fa287a
             trayIcon.Visible = true;
 
             ks = new KeyboardSimulator(ConfigurationManager.AppSettings["portName"]);
+
+            if (args.Length > 0)
+                if (args[0] == "connect") connect(this, null);
         }
 
         private void about(object sender, EventArgs e)

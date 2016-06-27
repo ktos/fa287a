@@ -41,8 +41,8 @@ namespace Ktos.Fa287a
     {
         [STAThread]
         private static void Main(string[] args)
-        {
-            Application.Run(new ApplicationContext());
+        {                            
+            Application.Run(new ApplicationContext(args));
         }
     }
 }
