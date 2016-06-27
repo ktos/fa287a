@@ -89,6 +89,20 @@ namespace Ktos.Fa287a
                     case Key.Apostrophe: return WindowsInput.Native.VirtualKeyCode.NEXT;
                     case Key.ArrowLeft: return WindowsInput.Native.VirtualKeyCode.HOME;
                     case Key.ArrowRight: return WindowsInput.Native.VirtualKeyCode.END;
+                    
+                    // Fn+1-0 and Minus and Plus = F1 to F12
+                    case Key.N_1: return WindowsInput.Native.VirtualKeyCode.F1;
+                    case Key.N_2: return WindowsInput.Native.VirtualKeyCode.F2;
+                    case Key.N_3: return WindowsInput.Native.VirtualKeyCode.F3;
+                    case Key.N_4: return WindowsInput.Native.VirtualKeyCode.F4;
+                    case Key.N_5: return WindowsInput.Native.VirtualKeyCode.F5;
+                    case Key.N_6: return WindowsInput.Native.VirtualKeyCode.F6;
+                    case Key.N_7: return WindowsInput.Native.VirtualKeyCode.F7;
+                    case Key.N_8: return WindowsInput.Native.VirtualKeyCode.F8;
+                    case Key.N_9: return WindowsInput.Native.VirtualKeyCode.F9;
+                    case Key.N_0: return WindowsInput.Native.VirtualKeyCode.F10;
+                    case Key.Minus: return WindowsInput.Native.VirtualKeyCode.F11;
+                    case Key.Plus: return WindowsInput.Native.VirtualKeyCode.F12;
                 }
             }
 
