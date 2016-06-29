@@ -51,7 +51,7 @@ namespace Ktos.Fa287a
         /// </summary>
         public ApplicationContext(string[] args)
         {
-            // sets up IPC communication and waits for messages
+            // sets up inter-process communication and waits for messages
             var ipc = new Ipc(Program.APPNAME);
             ipc.DataReceived += Ipc_DataReceived;
 
@@ -83,7 +83,7 @@ namespace Ktos.Fa287a
         }
 
         /// <summary>
-        /// Executes when IPC message arrives
+        /// Executef when IPC message arrives
         /// </summary>
         /// <param name="obj"></param>
         private void Ipc_DataReceived(int obj)
